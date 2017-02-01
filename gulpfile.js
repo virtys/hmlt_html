@@ -1,7 +1,7 @@
 const gulp = require('gulp');
-// const stylus = require('gulp-stylus');
+const stylus = require('gulp-stylus');
 // const connect = require('gulp-connect');
-
+const plumber = require('gulp-plumber');
 const browserSync = require('browser-sync');
 const runSequence = require('run-sequence');
 const del = require('del');
@@ -35,26 +35,68 @@ gulp.task('images', () =>
 //clean all
 gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
-gulp.task('bowerfiles', function() {
+gulp.task('bowerfiles', () => {
     return gulp.src(mainBowerFiles())
-        .pipe(gulp.dest('./dist/js'))
+        .pipe($.if('*.css', gulp.dest('./dist/css')))
+        .pipe($.if('*.js', gulp.dest('./dist/js')))
 });
 
 //copy html files
-gulp.task('copy', function () {
+gulp.task('copy', () => {
     gulp.src(['./app/*', './app/*.html'])
         .pipe(gulp.dest('./dist'))
         .pipe($.size({title: 'copy'}))
-})
+});
 
-gulp.task('styles', ()=> {
-    gulp.src(['./app/css/*.styl'])
-        .pipe($.plumber())
-        .pipe($.stulus())
+gulp.task('styles', () => {
+    gulp.src(['./app/css/*.styl', './app/css/*.css'])
+        .pipe(plumber())
+        .pipe($.if('*.styl', $.stylus()))
         .pipe(gulp.dest('./dist/css'))
         .pipe($.size({title: 'copy'}))
-})
+});
 
+gulp.task('scripts', () => {
+    gulp.src(['./app/js/*.js'])
+        .pipe(gulp.dest('./dist/js'))
+});
+
+
+gulp.task('serve', ['scripts', 'styles'], () => {
+    browserSync({
+        notify: false,
+        // Customize the Browsersync console logging prefix
+        logPrefix: 'WSK',
+        // Allow scroll syncing across breakpoints
+        scrollElementMapping: ['main', '.mdl-layout'],
+        // Run as an https by uncommenting 'https: true'
+        // Note: this uses an unsigned certificate which on first access
+        //       will present a certificate warning in the browser.
+        // https: true,
+        server: ['.tmp', 'app'],
+        port: 3000
+    });
+
+    gulp.watch(['app/**/*.html'], reload);
+    gulp.watch(['app/styles/**/*.{styl,css}'], ['styles', reload]);
+    gulp.watch(['app/scripts/**/*.js'], ['scripts', reload]);
+    gulp.watch(['app/img/**/*'], reload);
+});
+
+gulp.task('serve:dist', ['default'], () =>
+    browserSync({
+        notify: false,
+        logPrefix: 'WSK',
+        // Allow scroll syncing across breakpoints
+        scrollElementMapping: ['main', '.mdl-layout'],
+        // Run as an https by uncommenting 'https: true'
+        // Note: this uses an unsigned certificate which on first access
+        //       will present a certificate warning in the browser.
+        // https: true,
+        server: 'dist',
+        port: 3001
+    })
+);
 
 // gulp.task('stylus', function () {
 //     gulp.src('./src/styles/style.styl')
@@ -85,7 +127,8 @@ gulp.task('styles', ()=> {
 
 gulp.task('default', ['clean'], cb =>
     runSequence(
-        ['images','copy','bowerfiles'],
+        'styles',
+        ['scripts', 'images','copy','bowerfiles'],
         cb
     )
 );
