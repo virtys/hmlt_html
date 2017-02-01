@@ -1,0 +1,26 @@
+{
+  "name": "batter",
+  "description": "",
+  "main": "gulpfile.js",
+  "authors": [
+    "virtys <sergei.blade14@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jarallax": "^1.7.2"
+  },
+  "overrides": {
+    "jarallax": {
+      "main": "dist/*.js"
+    }
+  }
+}
