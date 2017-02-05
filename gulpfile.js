@@ -20,16 +20,16 @@ gulp.task('images', () =>
             interlaced: true
         })))
         .pipe(gulp.dest('dist/img'))
-        .pipe($.size({title: 'img'}))
 );
 
 //clean all
-gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
+gulp.task('clean', () => del(['dist/*', '!dist/.git'], {dot: true}));
 
 gulp.task('bowerfiles', () => {
     return gulp.src(mainBowerFiles())
-        .pipe($.if('*.css', gulp.dest('./dist/css')))
+        .pipe($.if('*.{css,gif}', gulp.dest('./dist/css')))
         .pipe($.if('*.js', gulp.dest('./dist/js')))
+        .pipe($.if('*.{eot,svg,ttf,woff}', gulp.dest('./dist/css/fonts')))
 });
 
 //copy html files
@@ -37,12 +37,10 @@ gulp.task('copy', () => {
     gulp.src(['./app/*', './app/*.html'])
         .pipe($.newer('./dist'))
         .pipe(gulp.dest('./dist'))
-        .pipe($.size({title: 'copy html'}));
 
     return gulp.src(['./app/fonts/**/*'])
         .pipe($.newer('./dist/fonts'))
         .pipe(gulp.dest('./dist/fonts'))
-        .pipe($.size({title: 'copy fonts'}))
 });
 
 gulp.task('styles', () => {
@@ -50,28 +48,32 @@ gulp.task('styles', () => {
         .pipe($.newer('./dist/css'))
         .pipe(plumber())
         .pipe($.if('*.styl', $.stylus()))
+        .pipe($.if(!isDevelopment, $.autoprefixer({ browsers: ['> 5%'] })))
         .pipe(gulp.dest('./dist/css'))
         .pipe(browserSync.stream());
 });
 
 gulp.task('scripts', () => {
     gulp.src(['./app/js/*.js'])
+        .pipe($.sourcemaps.init())
+        .pipe(plumber())
+        .pipe($.babel({
+            presets: ['es2015']
+        }))
+        .pipe($.concat('main.js'))
+        .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/js'))
 });
+
+
 
 
 gulp.task('serve', ['default'], () => {
     browserSync({
         notify: false,
-        // Customize the Browsersync console logging prefix
         logPrefix: 'WSK',
-        // Allow scroll syncing across breakpoints
         scrollElementMapping: ['main', '.mdl-layout'],
-        // Run as an https by uncommenting 'https: true'
-        // Note: this uses an unsigned certificate which on first access
-        //       will present a certificate warning in the browser.
         // https: true,
-        // server: ['.tmp', 'app'],
         server: './dist',
         port: 3000
     });
