@@ -68,6 +68,7 @@ gulp.task('scripts', () => {
 
 
 
+
 gulp.task('serve', ['default'], () => {
     browserSync({
         notify: false,
@@ -88,6 +89,33 @@ gulp.task('default', ['clean'], cb =>
     runSequence(
         'styles',
         ['scripts', 'images','copy','bowerfiles'],
+        cb
+    )
+);
+
+/*Upload in the server task*/
+gulp.task('upload:prepare', function () {
+    return gulp.src('app/*.html')
+        .pipe($.useref({ searchPath: './dist' }))
+        .pipe($.if('*.js', $.uglify()))
+        .pipe($.if('*.css', $.cleanCss()))
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('upload:sftp', () => {
+    gulp.src('dist/**/*')
+        .pipe($.sftp({
+            host: '195.54.162.42',
+            user: 'admin',
+            pass: '30143014ad',
+            remotePath: "/home/admin/web/dexifly.com/public_html/batter/"
+        }));
+});
+
+gulp.task('upload', ['default'], cb =>
+    runSequence(
+        'upload:prepare',
+        ['upload:sftp'],
         cb
     )
 );
