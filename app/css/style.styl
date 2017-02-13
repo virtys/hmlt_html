@@ -18,7 +18,7 @@ baseFontSize = 16
 //fnc to convert px to em
 em(amount)
   amount = amount/baseFontSize
-  unit(amount, "em")
+  unit(amount, "rem")
 
 /*
 [Table of contents]
@@ -86,7 +86,6 @@ pre
   margin: em(20px) 0;
   overflow: auto;
   padding: em(20px);
-  white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
 table,
@@ -153,7 +152,7 @@ h6
 
 @media all and (max-width: 768px)
   h1
-    font-size 2.3em;
+    font-size 2em;
 
 /* Tables */
 table {
@@ -194,6 +193,7 @@ code
 .lead
   font-size (scale/1.2) * 1rem;
   color: #787878;
+  line-height 1.8rem
 
 h2 + p.lead
   margin-top em(-10px);
@@ -230,6 +230,7 @@ p strong {
   height: auto;
   padding: 9em 0 7em;
 }
+
 @media all and (max-width: 767px) {
   .height-100,
   .height-90,
@@ -347,10 +348,10 @@ image-holder,
 
 .bg--dark
   background-color #111111
-  *
-    color: #fff!important;
+
 .bg--color
   background-color primaryColor
+
 
 /** ---- Navigation ---- **/
 .main-header {
@@ -512,8 +513,6 @@ image-holder,
   border-top: 1px solid #f2f2f2;
 }
 
-
-
 @media only screen and (min-width: 1024px)
   .primary-nav {
     /* vertically align its content */
@@ -539,7 +538,8 @@ image-holder,
   .primary-nav > ul li {
     display: inline-block;
     float: left;
-    margin-right: 2em;
+    margin-right: 1em;
+    padding: 0 0.5em;
   }
 
   .primary-nav > ul li:last-of-type {
@@ -549,7 +549,7 @@ image-holder,
     /* reset mobile style */
     height: auto;
     line-height: normal;
-    padding: 10px 0px;
+    padding: 10px 0;
     border: none;
   }
 
@@ -575,7 +575,7 @@ image-holder,
       padding 4px 4px;
     a
       color: #f4f4f4;
-      font-size em(14px);
+      font-size em(13px);
 
 @media only screen and (max-width: 1024px) {
   .nav-open .primary-nav ul {
@@ -613,11 +613,10 @@ image-holder,
   outline: none !important;
 }
 
-.animated-headline span:not(.is-active):not(.headline-cursor)
-  display: none;
+.animated-headline:after {
+  content "|"
+}
 
-//.headline-cursor
-//  animation text-transform
 
 /** ---- Helpers ---- **/
 .font--alternative
@@ -664,13 +663,12 @@ position--relative
 
 /** ---- Buttons ---- **/
 .button {
-  font-family fontDefault
+  font-family fontHeading
   cursor pointer
   min-width: em(100px);
   display: inline-block;
   margin: 1em;
   margin-left 0;
-  border: none;
   background: none;
   color: inherit;
   vertical-align: middle;
@@ -679,7 +677,9 @@ position--relative
   border-radius em(40px);
   border 2px solid;
   padding: 1rem 2rem;
-  font-size em(16px);
+  font-size em(12px);
+  text-transform uppercase
+  letter-spacing 1px;
 }
 .button:focus {
   outline: none;
@@ -713,7 +713,6 @@ position--relative
   transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
 }
 
-
 .button--effect::before {
   background: primaryColor;
   opacity .5;
@@ -741,11 +740,11 @@ position--relative
 
 .button--lg {
   padding: 1.3rem 2.5rem;
-  font-size em(18px);
+  font-size em(14px);
 }
 .button--sm {
-  padding: .8rem 1.65rem;
-  font-size em(12px);
+  padding: .5rem 1.5rem;
+  font-size em(9px);
 }
 
 .hero-scroll-button {
@@ -774,7 +773,7 @@ input[type]
   &:focus
     color: colorDefault;
     outline: 0;
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
 
 textarea
   min-height em(150px);
@@ -792,8 +791,6 @@ form
     font-size em(11px)
     letter-spacing 1px;
     margin 0 0 em(10px) em(10px)
-    margin-top 0
-    margin-bottom em(10px)
     display block
     color: colorHeading
 
@@ -824,6 +821,21 @@ input:-webkit-autofill
     margin-left: em(64px)
     h3,h4
       margin-bottom em(10px)
+
+.feature-3
+  border: 1px;
+  text-align center;
+  padding em(10px) em(50px)
+  box-shadow 0 0 10px 3px rgba(0, 0, 0, .01)
+  transition .1s;
+  .feature__icon
+    margin-bottom em(16px)
+  .feature__body
+    h3,h4
+      font-size em(18px)
+    h4+p
+      margin-bottom 0
+      //margin-bottom 0;
 
 /** ---- Progress bars ---- **/
 
@@ -964,6 +976,14 @@ input:-webkit-autofill
       margin-bottom 5px;
     span, em
       font-size em(14px)
+    .social
+      margin-top 10px;
+      a
+        color: #fff;
+        padding 5px;
+        margin-right .5em
+        i
+          vertical-align middle
   &:hover
     &:before
       opacity 1;
@@ -1027,6 +1047,12 @@ input:-webkit-autofill
 .padding--none {
   padding: 0;
 }
+.padding-top--none {
+  padding-top: 0;
+}
+.padding-bottom--none {
+  padding: 0;
+}
 
 .m-0 {
   margin: 0 !important;
@@ -1063,4 +1089,82 @@ input:-webkit-autofill
 }
 .mb-128 {
   margin-bottom: em(128px)
+}
+
+
+/*loaders**/
+.loader {
+  width 100%;
+  height 100%;
+  background-color: #fff;
+  position: fixed;
+  z-index 999;
+  pointer-events: none;
+  transition .1s;
+  overflow hidden
+}
+
+.loader-finish {
+  opacity 0;
+}
+
+@keyframes cx {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    display: none;
+  }
+}
+
+.loader3{
+  position: relative;
+  width: 150px;
+  height: 20px;
+  top: 45%;
+  top: calc(50% - 10px);
+  left: 25%;
+  left: calc(50% - 75px);
+}
+
+.loader3:after{
+  text-align center
+  font-family fontHeading
+  content: "LOADING ...";
+  color: #333;
+  font-weight: 200;
+  font-size: 14px;
+  letter-spacing 2px;
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.loader3:before{
+  content: "";
+  position: absolute;
+  background-color: primaryColor;
+  bottom: -15px;
+  left: 0px;
+  height: 5px;
+  width: 0px;
+  z-index: 0;
+  opacity: 1;
+  transform-origin:  100% 0% ;
+  animation: loader3 5s ease-in-out infinite;
+}
+
+@keyframes loader3{
+  0%{width: 0px;}
+  70%{width: 100%; opacity: 1;}
+  90%{opacity: 0; width: 100%;}
+  100%{opacity: 0;width: 0px;}
 }

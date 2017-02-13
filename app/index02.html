@@ -1,25 +1,34 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="Batter the best theme ever">
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Batter the best theme ever">
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CLora:400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/linea/styles.css">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.css">
+    <!-- build:css css/all.css -->
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootsrap-grid.css">
-    <link rel="stylesheet" href="bower_components/linea/styles.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/slick-theme.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- endbuild -->
     <title>Batter</title>
 </head>
 <body>
 <!--start header-->
 <header class="main-header header--absolute header--transparent header--white">
 
-    <div class="logo"><a href="#0"><img src="img/logo_batter.png" alt="Logo"></a></div>
+    <div class="logo">
+        <a href="#">
+            <img src="img/logo_light.png" class="logo--light" alt="Logo">
+            <img src="img/logo_dark.png" class="logo--dark" alt="Logo">
+        </a>
+    </div>
     <nav class="primary-nav">
         <a href="#navigation" class="nav-trigger">
 			<span>
@@ -31,8 +40,9 @@
             <li><a href="index.html">Home</a>
                 <ul class="sub-nav">
                     <li><a href="index.html">Home classic</a></li>
-                    <li><a href="index.html">Home classic 2</a></li>
-                    <li><a href="index.html">Home classic 3</a></li>
+                    <li><a href="index01.html">Home classic 2</a></li>
+                    <li><a href="index02.html">Home classic 3</a></li>
+                    <li><a href="index03.html">Home classic 3</a></li>
                 </ul>
             </li>
             <li><a href="#">Pages</a>
@@ -53,14 +63,14 @@
 <!--start main container-->
 <div class="main-container">
     <section class="height-100 parallax flex-align color--white" data-bg-overlay="2" data-jarallax='{"videoStartTime":1,"videoEndTime": 10}' data-jarallax-video="https://www.youtube.com/watch?v=z25BJ0Ef5rA">
-    <!--<section class="height-100 parallax flex-align color&#45;&#45;white" data-bg-overlay="3" data-background="img/2.jpg">-->
         <div class="container">
             <div class="row">
-                <div class="col-md-8 offset-md-2 text-center">
-                    <h5>Batter fund fond</h5>
-                    <h1 class="font--alternative">We invest in AI company with passion</h1>
+                <div class="col-md-6">
+                    <h2>We invest in AI <br> company with <b>passion</b></h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consequatur corporis cum debitis
+                        delectus doloribus eos</p>
                     <a href="#" class="button">Pitch us</a>
-                    <!--<a href="#" class="button button&#45;&#45;filled">Get strated</a>-->
+                    <!--<a href="#" class="button button&#45;&#45;filled">Learn more</a>-->
                 </div>
             </div>
         </div>
@@ -95,14 +105,16 @@
 </footer>
 <!--end footer-->
 
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/jarallax/jarallax/jarallax.js"></script>
-<script src="bower_components/jarallax/jarallax/jarallax-video.js"></script>
-<script src="bower_components/isotope/dist/isotope.pkgd.min.js"></script>
-<script src="bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-<script src="bower_components/flickity/dist/flickity.pkgd.min.js"></script>
-<script src="bower_components/scrollreveal/dist/scrollreveal.min.js"></script>
+<!-- build:js js/all.js -->
+<script src="js/jquery.min.js"></script>
+<script src="js/jarallax.min.js"></script>
+<script src="js/jarallax-video.min.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/particles.min.js"></script>
 
 <script src="js/main.js"></script>
+<!-- endbuild -->
 </body>
 </html>

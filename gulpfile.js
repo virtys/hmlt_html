@@ -6,6 +6,7 @@ const runSequence = require('run-sequence');
 const del = require('del');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const mainBowerFiles = require('main-bower-files');
+const through2 = require('through2').obj;
 
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
@@ -15,10 +16,11 @@ const reload = browserSync.reload;
 // Optimize images
 gulp.task('images', () =>
     gulp.src('app/img/**/*')
-        .pipe($.cache($.imagemin({
+        .pipe($.newer('dist/img'))
+        .pipe($.imagemin({
             progressive: true,
             interlaced: true
-        })))
+        }))
         .pipe(gulp.dest('dist/img'))
 );
 
@@ -36,7 +38,7 @@ gulp.task('bowerfiles', () => {
 gulp.task('copy', () => {
     gulp.src(['./app/*', './app/*.html'])
         .pipe($.newer('./dist'))
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest('./dist'));
 
     return gulp.src(['./app/fonts/**/*'])
         .pipe($.newer('./dist/fonts'))
@@ -82,7 +84,7 @@ gulp.task('serve', ['default'], () => {
     gulp.watch(['app/**/*.html'], ['copy', reload]);
     gulp.watch(['app/css/**/*.{styl,css}'], ['styles']);
     gulp.watch(['app/js/**/*.js'], ['scripts', reload]);
-    gulp.watch(['app/img/**/*'], reload);
+    gulp.watch(['app/img/**/*'], ['images', reload]);
 });
 
 gulp.task('default', ['clean'], cb =>
@@ -92,6 +94,18 @@ gulp.task('default', ['clean'], cb =>
         cb
     )
 );
+
+
+gulp.task('images:envato', () => {
+    gulp.src('app/img/**/*')
+        .pipe($.jimp({
+            "": {
+                blur: 40
+            }
+        }))
+        .pipe(gulp.dest('dist/img'));
+});
+
 
 /*Upload in the server task*/
 gulp.task('upload:prepare', function () {

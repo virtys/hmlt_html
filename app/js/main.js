@@ -5,7 +5,7 @@
 
     'user strict';
 
-    const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))?true:false;
+    const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))? true : false;
 
     $(window).on('load', function (w) {
         $('.masonry').each(function () {
@@ -44,7 +44,7 @@
             masonryContainer.isotope({ filter: filterValue });
         });
 
-        // initReveal();
+        $('.loader').addClass('loader-finish')
     });
 
     $(document).ready(function() {
@@ -54,6 +54,7 @@
         initParallax();
         initSliders();
         initParticles();
+        initAnimatedCursor();
 
         $('.masonry').each(function() {
             let masonry = $(this);
@@ -108,6 +109,16 @@
         if (!isMobile) {
             $('.parallax').jarallax({
                 speed: 0.2
+            });
+        }
+    }
+
+    function initAnimatedCursor() {
+        let cursorSelector = document.querySelector('.animated-headline');
+        if(cursorSelector) {
+            new AnimatedCursor(cursorSelector, {
+               printTime: 200,
+               deleteTime: 40
             });
         }
     }
