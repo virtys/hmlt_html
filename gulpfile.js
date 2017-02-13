@@ -35,15 +35,22 @@ gulp.task('bowerfiles', () => {
 });
 
 //copy html files
-gulp.task('copy', () => {
+gulp.task('copy:html', () => {
     gulp.src(['./app/*', './app/*.html'])
         .pipe($.newer('./dist'))
         .pipe(gulp.dest('./dist'));
+});
 
+gulp.task('copy:fonts', () => {
     return gulp.src(['./app/fonts/**/*'])
         .pipe($.newer('./dist/fonts'))
         .pipe(gulp.dest('./dist/fonts'))
-});
+})
+
+gulp.task('copy:mail', () => {
+    gulp.src(['./app/mail/**/*'])
+        .pipe(gulp.dest('./dist/mail'));
+})
 
 gulp.task('styles', () => {
     gulp.src(['./app/css/*.styl', './app/css/*.css'])
@@ -81,7 +88,7 @@ gulp.task('serve', ['default'], () => {
         port: 3000
     });
 
-    gulp.watch(['app/**/*.html'], ['copy', reload]);
+    gulp.watch(['app/**/*.html'], ['copy:html', reload]);
     gulp.watch(['app/css/**/*.{styl,css}'], ['styles']);
     gulp.watch(['app/js/**/*.js'], ['scripts', reload]);
     gulp.watch(['app/img/**/*'], ['images', reload]);
@@ -90,7 +97,7 @@ gulp.task('serve', ['default'], () => {
 gulp.task('default', ['clean'], cb =>
     runSequence(
         'styles',
-        ['scripts', 'images','copy','bowerfiles'],
+        ['scripts', 'images', 'copy:html', 'copy:fonts', 'copy:mail', 'bowerfiles'],
         cb
     )
 );
